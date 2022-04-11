@@ -30,6 +30,8 @@ neighborhood_lst.sort()
 output_lst = []
 
 print("Generating json...")
+outf = open("output.json", "wt")
+outf.write("[")
 
 for i in neighborhood_lst:
     # print(f"{i}:")
@@ -52,9 +54,12 @@ for i in neighborhood_lst:
         "avg_dispatch_time" : avg_dispatch_time,
         "avg_total_time" : avg_tot_time
     }
-    out_json = json.dumps(output_dict)
-    output_lst.append(out_json)
-    
-outf = open("output.json", "wt")
-outf.write(str(output_lst))
+    json.dump(output_dict, outf)
+    try:
+        if(neighborhood_lst[neighborhood_lst.index(i)+1]) != None:
+            outf.write(",")
+    except IndexError:
+        outf.write("\n")
+   
+outf.write("]")   
 outf.close()
